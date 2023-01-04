@@ -23,6 +23,8 @@ export class GetAuthenticatedUser {
       throw new UserNotFound();
     }
 
+    delete user.password;
+
     return { user };
   }
 }

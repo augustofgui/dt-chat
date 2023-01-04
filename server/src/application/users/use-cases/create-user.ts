@@ -44,6 +44,8 @@ export class CreateUser {
       }
     });
 
+    delete user.password;
+
     return { user };
   }
 }
