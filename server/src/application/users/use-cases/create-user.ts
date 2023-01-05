@@ -35,7 +35,7 @@ export class CreateUser {
 
     const hashedPassword = await hash(password, 8);
 
-    const avatarUrl = `https://avatars.dicebear.com/api/avataaars/${username}.svg`;
+    const pictureUrl = `https://avatars.dicebear.com/api/avataaars/${username}.svg`;
 
     const user = await client.user.create({
       data: {
@@ -43,7 +43,7 @@ export class CreateUser {
         username,
         email,
         password: hashedPassword,
-        avatarUrl
+        pictureUrl
       }
     });
 

@@ -31,7 +31,7 @@ export class UpdateUser {
       throw new EmailAlreadyUsed();
     }
 
-    const avatarUrl = `https://avatars.dicebear.com/api/avataaars/${username}.svg`;
+    const pictureUrl = `https://avatars.dicebear.com/api/avataaars/${username}.svg`;
 
     const user = await client.user.update({
       where: { id: userId },
@@ -39,7 +39,7 @@ export class UpdateUser {
         name,
         username,
         email,
-        avatarUrl
+        pictureUrl
       }
     });
 
