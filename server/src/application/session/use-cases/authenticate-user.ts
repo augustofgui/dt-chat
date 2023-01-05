@@ -1,4 +1,5 @@
 import { client } from '@infra/database/prisma/client';
+import { User } from '@prisma/client';
 
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
@@ -13,7 +14,8 @@ interface AuthenticateUserRequest {
 }
 
 interface AuthenticateUserResponse {
-  token: string
+  token: string;
+  user: User;
 }
 
 export class AuthenticateUser {
@@ -39,6 +41,8 @@ export class AuthenticateUser {
       expiresIn: authConfig.jwt.expiresIn
     });
 
-    return { token };
+    delete user.password;
+
+    return { token, user };
   }
 }

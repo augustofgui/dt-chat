@@ -9,9 +9,9 @@ export class SessionController {
 
     const authenticateUser = new AuthenticateUser();
 
-    const { token } = await authenticateUser.execute({ email, password });
+    const { token, user } = await authenticateUser.execute({ email, password });
 
-    return response.status(200).json({ token });
+    return response.status(200).json({ token, user });
   }
 
   async me(request: Request, response: Response) {
