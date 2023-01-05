@@ -2,47 +2,43 @@ import { User } from '@prisma/client';
 
 import { client } from '@infra/database/prisma/client';
 
-import { hash } from 'bcryptjs';
-
 import { EmailAlreadyUsed } from './errors/email-already-used';
 import { UsernameAlreadyUsed } from './errors/username-already-used';
 
-interface CreateUserRequest {
+interface UpdateUserRequest {
+  userId: string;
   name: string;
   username: string;
   email: string;
-  password: string;
 }
 
-interface CreateUserResponse {
+interface UpdateUserResponse {
   user: User
 }
 
-export class CreateUser {
-  async execute(request: CreateUserRequest): Promise<CreateUserResponse> {
-    const { name, username, email, password } = request;
+export class UpdateUser {
+  async execute(request: UpdateUserRequest): Promise<UpdateUserResponse> {
+    const { userId, name, username, email } = request;
 
     const usernameAlreadyUsed = await client.user.findUnique({ where: { username } });
     const emailAlreadyUsed = await client.user.findUnique({ where: { email } });
 
-    if(usernameAlreadyUsed) {
+    if(usernameAlreadyUsed && usernameAlreadyUsed.id !== userId) {
       throw new UsernameAlreadyUsed();
     }
 
-    if(emailAlreadyUsed) {
+    if(emailAlreadyUsed && emailAlreadyUsed.id !== userId) {
       throw new EmailAlreadyUsed();
     }
 
-    const hashedPassword = await hash(password, 8);
-
     const avatarUrl = `https://avatars.dicebear.com/api/avataaars/${username}.svg`;
 
-    const user = await client.user.create({
+    const user = await client.user.update({
+      where: { id: userId },
       data: {
         name,
         username,
         email,
-        password: hashedPassword,
         avatarUrl
       }
     });

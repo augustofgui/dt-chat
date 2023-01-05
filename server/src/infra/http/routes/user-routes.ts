@@ -8,5 +8,6 @@ const userController = new UserController();
 
 userRoutes.post('/', userController.create);
 userRoutes.get('/username/:username', ensureAuthenticated, userController.show);
+userRoutes.patch('/', ensureAuthenticated, userController.update);
 
 export { userRoutes };

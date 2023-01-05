@@ -5,8 +5,7 @@ import express from 'express';
 import cors from 'cors';
 
 import { appRoutes } from '@infra/http/routes';
-
-import { errorHandler } from '@infra/http/middlewares/error-middleware';
+import { errorHandler } from '@infra/http/middlewares/error-handler';
 
 async function bootstrap() {
   const app = express();
